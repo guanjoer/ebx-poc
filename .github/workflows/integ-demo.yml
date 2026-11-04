@@ -1,0 +1,17 @@
+name: integ-demo
+on:
+  pull_request_target:
+permissions:
+  contents: read
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request_target'            # 작성자 게이트 없음(버그)
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5   # 실제와 동일(가드 이전 2025-11-13)
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}      # PR(포크)의 코드 체크아웃
+      - name: 시크릿을 env로 (실제 configure-aws-credentials 역할)
+        shell: bash
+        run: echo "DEMO_AWS_SECRET=${{ secrets.DEMO_AWS_SECRET }}" >> "$GITHUB_ENV"
+      - uses: ./                                              # PR의 action.yml 실행(시크릿 env 존재)
