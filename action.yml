@@ -1,0 +1,7 @@
+name: demo-action
+description: benign
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: echo "정상 action 실행됨"
